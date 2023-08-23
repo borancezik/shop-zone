@@ -9,7 +9,7 @@ import { useHomePageContext } from "../../context/HomePageProvider";
 const Products = () => {
   const dispacth = useDispatch();
 
-  const { category } = useHomePageContext();
+  const { category, sort } = useHomePageContext();
 
   useEffect(() => {
     if (category) {
@@ -18,6 +18,8 @@ const Products = () => {
       dispacth(getProducts());
     }
   }, [dispacth, category]);
+
+  console.log("sort--", sort);
 
   const { products, productsStatus } = useSelector((state) => state.products);
 
@@ -40,9 +42,17 @@ const Products = () => {
       ) : (
         <>
           <div className="flex flex-wrap">
-            {currentItems?.map((product, index) => (
-              <Product key={index} product={product}></Product>
-            ))}
+            {currentItems
+              ?.sort((a, b) =>
+                sort === "inc"
+                  ? a.price - b.price
+                  : sort === "dec"
+                  ? b.price - a.price
+                  : null
+              )
+              .map((product, index) => (
+                <Product key={index} product={product}></Product>
+              ))}
           </div>
           <ReactPaginate
             className="paginate"
