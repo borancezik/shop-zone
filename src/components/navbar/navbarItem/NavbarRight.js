@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { SlBasket } from "react-icons/sl";
 import { BsSearch } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartTotal } from "../../../redux/cartSlice";
 
 const NavbarRight = () => {
+  const dispatch = useDispatch();
+  const { carts } = useSelector((state) => state.carts);
+  useEffect(() => {
+    dispatch(getCartTotal());
+  }, [dispatch]);
   return (
     <div className="flex items-center gap-8">
       <div className="flex items-center border p-3 rounded-full bg-gray-200">
@@ -17,7 +24,7 @@ const NavbarRight = () => {
       <AiOutlineHeart size={28}></AiOutlineHeart>
       <div className="relative">
         <div className="absolute -top-3 -right-3 bg-green-300 text-white rounded-full w-5 h-5 flex items-center justify-center">
-          3
+          {carts.length}
         </div>
         <SlBasket size={28}></SlBasket>
       </div>
