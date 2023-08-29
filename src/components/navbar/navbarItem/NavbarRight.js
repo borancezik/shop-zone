@@ -4,10 +4,12 @@ import { SlBasket } from "react-icons/sl";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartTotal } from "../../../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const NavbarRight = () => {
   const dispatch = useDispatch();
-  const { carts } = useSelector((state) => state.carts);
+  const navigate = useNavigate();
+  const { itemCount } = useSelector((state) => state.carts);
   useEffect(() => {
     dispatch(getCartTotal());
   }, [dispatch]);
@@ -22,9 +24,9 @@ const NavbarRight = () => {
         <BsSearch size={28}></BsSearch>
       </div>
       <AiOutlineHeart size={28}></AiOutlineHeart>
-      <div className="relative">
+      <div className="relative" onClick={() => navigate("/cart")}>
         <div className="absolute -top-3 -right-3 bg-green-300 text-white rounded-full w-5 h-5 flex items-center justify-center">
-          {carts.length}
+          {itemCount}
         </div>
         <SlBasket size={28}></SlBasket>
       </div>
